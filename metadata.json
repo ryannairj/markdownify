@@ -1,0 +1,6 @@
+{
+  "name": "Markdown Workspace",
+  "description": "A fully-featured markdown editor with real-time preview, local/cloud synchronization, GitHub backup integration, distraction-free mode, and export options.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

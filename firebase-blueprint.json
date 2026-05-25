@@ -1,0 +1,70 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile with identifier.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["uid", "email", "createdAt"]
+    },
+    "Document": {
+      "title": "Document",
+      "description": "A Markdown document inside the workspace.",
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Title of the document"
+        },
+        "content": {
+          "type": "string",
+          "description": "Markdown body content"
+        },
+        "tags": {
+          "type": "array",
+          "description": "Associated tags"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Creation timestamp"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last updated timestamp"
+        },
+        "isFavorite": {
+          "type": "boolean",
+          "description": "Favorite status flag"
+        },
+        "ownerId": {
+          "type": "string",
+          "description": "User ID of the document owner"
+        }
+      },
+      "required": ["title", "content", "tags", "createdAt", "updatedAt", "ownerId"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User metadata records."
+    },
+    "/users/{userId}/documents/{documentId}": {
+      "schema": "Document",
+      "description": "The user's list of Markdown documents."
+    }
+  }
+}
