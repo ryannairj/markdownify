@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { 
   Plus, Search, Star, Trash2, Folder, Tag, Sparkles, 
-  Settings, Cloud, Moon, Sun, Monitor, ChevronRight
+  Settings, Cloud, Moon, Sun, Monitor, ChevronRight, LayoutTemplate
 } from 'lucide-react';
 import { Document } from '../types';
 
@@ -15,6 +15,7 @@ interface SidebarProps {
   darkMode: boolean;
   onToggleDarkMode: () => void;
   onOpenSettings: () => void;
+  onOpenTemplateManager: () => void;
   backupConfigured: boolean;
   onOpenBackup: () => void;
   user: any;
@@ -33,6 +34,7 @@ export default function Sidebar({
   darkMode,
   onToggleDarkMode,
   onOpenSettings,
+  onOpenTemplateManager,
   backupConfigured,
   onOpenBackup,
   user,
@@ -73,14 +75,25 @@ export default function Sidebar({
           <span className="font-serif italic text-lg tracking-tight text-[#f0f0f0]">Manuscript.</span>
         </div>
         
-        <button
-          onClick={onAdd}
-          className="p-2 bg-[#a89f8d] hover:bg-[#b0a898] text-[#0a0a0a] rounded transition-all flex items-center justify-center cursor-pointer shadow-sm hover:scale-[1.03]"
-          title="Create New File"
-          id="btn-new-document"
-        >
-          <Plus className="w-4 h-4" />
-        </button>
+        <div className="flex items-center gap-1.5">
+          <button
+            onClick={onOpenTemplateManager}
+            className="p-1.5 bg-[#141414] hover:bg-[#1a1a1a] text-[#a89f8d]/80 hover:text-[#a89f8d] border border-[#222] hover:border-[#333] rounded transition-all flex items-center justify-center cursor-pointer shadow-sm hover:scale-[1.03]"
+            title="Open Template Manager Skeletons"
+            id="btn-open-template-manager"
+          >
+            <LayoutTemplate className="w-4 h-4" />
+          </button>
+
+          <button
+            onClick={onAdd}
+            className="p-1.5 bg-[#a89f8d] hover:bg-[#b0a898] text-[#0a0a0a] rounded transition-all flex items-center justify-center cursor-pointer shadow-sm hover:scale-[1.03]"
+            title="Create New File"
+            id="btn-new-document"
+          >
+            <Plus className="w-4 h-4" />
+          </button>
+        </div>
       </div>
 
       {/* Modern Search bar input inside container */}

@@ -29,3 +29,12 @@ export interface EditorSettings {
   lineNumbers: boolean;
   cloudSyncEnabled: boolean;
 }
+
+export interface DocumentTemplate {
+  id: string;
+  title: string;
+  description: string;
+  content: string;
+  tags: string[];
+  isCustom?: boolean;
+}

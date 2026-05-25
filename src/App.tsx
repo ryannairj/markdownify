@@ -9,6 +9,7 @@ import Editor from './components/Editor';
 import Preview from './components/Preview';
 import BackupPanel from './components/BackupPanel';
 import SpeechPlayer from './components/SpeechPlayer';
+import TemplateManager from './components/TemplateManager';
 import { Document, EditorSettings } from './types';
 import { 
   auth, db, loginWithGoogle, logoutUser, doc, setDoc, deleteDoc, 
@@ -203,6 +204,7 @@ export default function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isBackupOpen, setIsBackupOpen] = useState(false);
+  const [isTemplateManagerOpen, setIsTemplateManagerOpen] = useState(false);
   const [newTagInput, setNewTagInput] = useState('');
   
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -327,6 +329,36 @@ export default function App() {
     handleSaveDocuments(updated);
     handleSelectDoc(newDoc.id);
     saveToCloud(newDoc);
+  };
+
+  const handleCreateDocFromTemplate = (title: string, content: string, tags: string[]) => {
+    const newDoc: Document = {
+      id: `doc-${Date.now()}`,
+      title: title ? `New ${title}` : 'New Manuscript Blueprint',
+      content: content || '',
+      tags: tags || [],
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      isFavorite: false
+    };
+
+    const updated = [newDoc, ...documents];
+    handleSaveDocuments(updated);
+    handleSelectDoc(newDoc.id);
+    saveToCloud(newDoc);
+  };
+
+  const handleInjectContentIntoActiveDoc = (content: string, mode: 'overwrite' | 'append' | 'prepend') => {
+    if (!activeDoc) return;
+    let finalContent = '';
+    if (mode === 'overwrite') {
+      finalContent = content;
+    } else if (mode === 'prepend') {
+      finalContent = content + '\n\n' + activeDoc.content;
+    } else { // 'append' or fallback
+      finalContent = activeDoc.content + '\n\n' + content;
+    }
+    handleContentChange(finalContent);
   };
 
   const handleDeleteDocument = async (id: string, name: string) => {
@@ -565,6 +597,7 @@ export default function App() {
             darkMode={settings.theme === 'dark'}
             onToggleDarkMode={handleToggleTheme}
             onOpenSettings={() => setIsSettingsOpen(true)}
+            onOpenTemplateManager={() => setIsTemplateManagerOpen(true)}
             backupConfigured={isBackupConfigured()}
             onOpenBackup={() => setIsBackupOpen(true)}
             user={user}
@@ -815,6 +848,15 @@ export default function App() {
         onClose={() => setIsBackupOpen(false)}
         documents={documents}
         onImportDocuments={handleImportDocuments}
+      />
+
+      {/* 7. Template Manager popover overlay */}
+      <TemplateManager
+        isOpen={isTemplateManagerOpen}
+        onClose={() => setIsTemplateManagerOpen(false)}
+        activeDoc={activeDoc || null}
+        onAddDocumentFromTemplate={handleCreateDocFromTemplate}
+        onInjectContentIntoActiveDoc={handleInjectContentIntoActiveDoc}
       />
     </div>
   );

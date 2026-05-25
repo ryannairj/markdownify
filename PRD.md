@@ -16,6 +16,7 @@
 - **Dynamic File Tree & Category Tag Sorting**: Built-in library list with instant search terms and keyword-specific tag filters.
 - **Export & Production Pipeline**: Raw Markdown downloads and standalone, layout-perfect CSS-embedded static HTML files for publishing.
 - **Read Manuscript Aloud**: Browser-native SpeechSynthesis player that parses active document text, strips raw markdown tags (to preserve pristine prose audio), provides local voice-profile selectors, custom pacing control, and real-time sentence-by-sentence captioned visual telemetry.
+- **Template Manager**: Integrated workspace skeleton system providing built-in literary templates (Book Chapter, Research Paper, Technical Blog, Character Worksheet) with seamless workflows to save current active drafts as custom blueprint skeletons, and multi-mode injection triggers (overwrite, prepend, append) or single-click new document creation.
 - **External Git Syncer**: Fine-grained GitHub push/pull operations to save revisions natively to remote source trees.
 
 ## 4. Design & Usability Mandates

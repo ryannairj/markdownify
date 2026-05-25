@@ -23,11 +23,13 @@ Manuscript is structured as a client-side modern React SPA built on Vite, compil
   - **Preview.tsx**: HTML compiler utilizing `marked` to build custom structural layouts for headers, tables, code listings, and blockquotes with print constraints.
   - **BackupPanel.tsx**: GitHub sync credential form coordinating fine-grained push and pull commits.
   - **SpeechPlayer.tsx**: Built-in audio controller that segments manuscripts into readable sentences, strips syntax tokens, and directs verbal reading.
+  - **TemplateManager.tsx**: UI modal showcasing a searchable collection of built-in/custom draft frameworks, permitting rapid spawning of files and granular markdown content injections.
 
 ## 3. Persistent Storage Engine
 - **Local Engine**: Direct serialization of document arrays (`markdown_workspace_docs`) and preferences (`markdown_workspace_settings`) inside local storage.
 - **Firebase Sync**: Background listeners triggering on-snapshots; newest timestamp wins on document reconciliation, ensuring no offline workflows are overwritten on network recovery.
 - **Vocal Settings Cache**: Keeps client-selected TTS voice profiles cached inside local storage (`manuscript_tts_voice`) for persistence across application reloads.
+- **Custom Blueprint Storage**: Saves personalized templates inside `localStorage` under `markdown_workspace_custom_templates` key, maintaining offline-first creation capabilities safely.
 
 ## 4. Theme Integration & Styling Cascade
 - **Remapping Strategy**: The system implements an absolute-value override layer inside `index.css`.
