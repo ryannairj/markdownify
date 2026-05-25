@@ -9,6 +9,7 @@ interface EditorProps {
   textareaRef: React.RefObject<HTMLTextAreaElement | null>;
   layoutMode: string;
   onToggleLayout: () => void;
+  isSaving: boolean;
 }
 
 export default function Editor({ 
@@ -18,7 +19,8 @@ export default function Editor({
   lineNumbers, 
   textareaRef,
   layoutMode,
-  onToggleLayout
+  onToggleLayout,
+  isSaving
 }: EditorProps) {
   const gutterRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
@@ -151,7 +153,27 @@ export default function Editor({
           Markdown Editor
         </span>
         
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
+          {/* Synchronized Saving Status Indicator */}
+          <div className="flex items-center gap-1.5 px-2 py-0.5 text-[9px] uppercase tracking-wider font-sans font-semibold rounded bg-[#090909] border border-[#222] min-w-[70px] justify-center transition-all">
+            {isSaving ? (
+              <>
+                <span className="flex h-1.5 w-1.5 relative">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 bg-[#a89f8d]"></span>
+                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#a89f8d]"></span>
+                </span>
+                <span className="text-[#a89f8d]">Saving...</span>
+              </>
+            ) : (
+              <>
+                <span className="flex h-1.5 w-1.5 relative">
+                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+                </span>
+                <span className="text-emerald-500 font-medium font-sans">Saved</span>
+              </>
+            )}
+          </div>
+
           {/* File select upload fallback */}
           <label className="flex items-center gap-1.5 px-2.5 py-1 text-[10px] uppercase tracking-widest font-sans font-medium text-[#666] hover:text-white hover:bg-[#1a1a1a] rounded cursor-pointer transition border border-transparent hover:border-[#333]">
             <Upload className="w-3.5 h-3.5" />

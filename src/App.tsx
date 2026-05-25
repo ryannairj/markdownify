@@ -54,6 +54,27 @@ export default function App() {
   // Firebase configuration elements
   const [user, setUser] = useState<FirebaseUser | null>(null);
   const [isCloudSyncing, setIsCloudSyncing] = useState(false);
+  const [isLocalSaving, setIsLocalSaving] = useState(false);
+  const saveTimeoutRef = useRef<any>(null);
+
+  const triggerLocalSaving = () => {
+    setIsLocalSaving(true);
+    if (saveTimeoutRef.current) {
+      clearTimeout(saveTimeoutRef.current);
+    }
+    saveTimeoutRef.current = setTimeout(() => {
+      setIsLocalSaving(false);
+    }, 750);
+  };
+
+  // Clean up timer on unmount
+  useEffect(() => {
+    return () => {
+      if (saveTimeoutRef.current) {
+        clearTimeout(saveTimeoutRef.current);
+      }
+    };
+  }, []);
 
   // Authenticate user status check
   useEffect(() => {
@@ -247,6 +268,7 @@ export default function App() {
   const handleSaveDocuments = (updatedDocs: Document[]) => {
     setDocuments(updatedDocs);
     localStorage.setItem('markdown_workspace_docs', JSON.stringify(updatedDocs));
+    triggerLocalSaving();
   };
 
   useEffect(() => {
@@ -724,6 +746,7 @@ export default function App() {
                     textareaRef={textareaRef}
                     layoutMode={settings.layout}
                     onToggleLayout={() => handleUpdateSetting('layout', settings.layout === 'split' ? 'editor' : 'split')}
+                    isSaving={isLocalSaving || isCloudSyncing}
                   />
                 </div>
               )}
